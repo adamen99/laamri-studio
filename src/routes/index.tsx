@@ -1,7 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useScroll, useInView, type Variants } from "framer-motion";
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useForm } from "react-hook-form";
 import hero from "@/assets/hero-villa.jpg";
+import bluehour from "@/assets/villa-bluehour.jpg";
+import bowl from "@/assets/bronze-bowl.jpg";
+import arch from "@/assets/stone-arch.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -196,11 +200,56 @@ const items = [
   ["Portfolio Activation", "Two to four additional listings activated monthly with content derived from the same visual world."],
 ];
 
+function ImageBlock({ src, alt, h }: { src: string; alt: string; h: string }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: inView ? 1 : 0 }}
+      transition={{ duration: 1, ease: "easeOut" }}
+      className={`relative w-full overflow-hidden ${h}`}
+    >
+      <img src={src} alt={alt} loading="lazy" width={1920} height={1088} className="ken-burns absolute inset-0 h-full w-full object-cover object-center" />
+    </motion.div>
+  );
+}
+
+const movements = ["First", "Second", "Third", "Fourth"];
+
+function Movement({ i }: { i: number }) {
+  const [t, d] = items[i];
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="grid min-h-[80vh] items-center gap-6 px-6 py-20 md:grid-cols-2 md:px-0"
+    >
+      <span className="title-display text-center text-[120px] leading-none text-gold/80 md:pl-[60px] md:text-left md:text-[220px]">
+        0{i + 1}
+      </span>
+      <div className="mx-auto w-full max-w-[440px] text-center md:mx-0 md:text-left">
+        <p className="label tracking-[0.3em]">{movements[i]} Movement</p>
+        <h3 className="mt-6 text-[32px] uppercase leading-tight tracking-[0.1em] text-gold">{t}</h3>
+        <p className="mt-6 text-lg leading-[1.8] text-paper">{d}</p>
+        <span className="mx-auto mt-8 block h-px w-20 bg-gold/40 md:mx-0" />
+      </div>
+    </motion.div>
+  );
+}
+
+const Divider = () => <span className="block h-[2px] w-full bg-gold/10" />;
+
 function Campaign() {
   return (
-    <section className="flex min-h-[90vh] items-center px-6 py-32 md:px-12 lg:px-24">
-      <div className="mx-auto grid w-full max-w-6xl gap-20 md:grid-cols-2 md:gap-16">
-        <Reveal>
+    <section>
+      <div className="flex min-h-[70vh] items-center px-6 py-32 md:px-12 lg:px-24">
+        <Reveal className="mx-auto w-full max-w-6xl">
           <Label>Our Work</Label>
           <span className="rule mt-6" />
           <h2 className="title-display mt-10 text-4xl text-gold md:text-[56px]">
@@ -221,21 +270,18 @@ function Campaign() {
             <span>Lisbon</span>
           </div>
         </Reveal>
-        <div>
-          {items.map(([t, d], i) => (
-            <Reveal key={t} delay={0.1 * i}>
-              <div className={`flex gap-8 py-8 ${i ? "border-t border-gold/20" : ""}`}>
-                <span className="w-16 shrink-0 font-serif text-5xl font-light leading-none text-gold">
-                  0{i + 1}
-                </span>
-                <div>
-                  <h3 className="text-[22px] uppercase tracking-[0.1em] text-gold">{t}</h3>
-                  <p className="mt-3 text-[15px] leading-[1.6] text-paper">{d}</p>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+      </div>
+      <div className="mx-auto max-w-6xl md:px-12">
+        <Divider />
+        <Movement i={0} />
+        <Divider />
+        <Movement i={1} />
+      </div>
+      <ImageBlock src={bowl} alt="Bronze bowl of still water in golden light" h="h-[50vh]" />
+      <div className="mx-auto max-w-6xl md:px-12">
+        <Movement i={2} />
+        <Divider />
+        <Movement i={3} />
       </div>
     </section>
   );
@@ -307,30 +353,134 @@ function Geographies() {
   );
 }
 
+const quote = ["We don't produce content.", "We compose the story a specific buyer", "is meant to fall into."];
+
+function Signature() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-15% 0px" });
+  return (
+    <section ref={ref} className="relative flex min-h-[70vh] items-center bg-emerald px-6 py-[120px]">
+      <div className="mx-auto max-w-[760px] text-center">
+        <Label>A Quiet Statement</Label>
+        <span className="rule mx-auto mt-6" />
+        <blockquote className="mt-14 text-[28px] font-light italic leading-[1.5] text-gold md:text-[36px]">
+          {quote.map((l, i) => (
+            <motion.span
+              key={i}
+              className="block"
+              initial={{ opacity: 0, y: 12 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 * i }}
+            >
+              {l}
+            </motion.span>
+          ))}
+        </blockquote>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 1.2, ease: "easeOut", delay: 1.1 }}
+          className="mt-10 text-base text-paper"
+        >
+          — Laamri Studio, Tangier
+        </motion.p>
+      </div>
+      <span className="absolute inset-x-0 bottom-0 h-px bg-gold/20" />
+    </section>
+  );
+}
+
+type Inquiry = { name: string; email: string; agency?: string; market: string; message: string };
+
+function Field({ label, error, children }: { label: string; error?: string; children: ReactNode }) {
+  return (
+    <label className="block text-left">
+      <span className="label mb-2 block text-[10px] tracking-[0.25em]">{label}</span>
+      {children}
+      {error && <span className="mt-2 block font-sans text-[11px] text-gold-light">{error}</span>}
+    </label>
+  );
+}
+
 function Contact() {
+  const [sent, setSent] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<Inquiry>();
+
+  // Formspree-ready: set FORMSPREE_ENDPOINT to "https://formspree.io/f/xxxx" later.
+  const FORMSPREE_ENDPOINT = "";
+  const onSubmit = async (data: Inquiry) => {
+    if (FORMSPREE_ENDPOINT) {
+      await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(data),
+      });
+    }
+    setSent(true);
+  };
+
   return (
     <section className="flex min-h-[60vh] items-center bg-emerald px-6 py-32">
-      <div className="mx-auto text-center">
+      <div className="mx-auto w-full max-w-[520px] text-center">
         <Reveal>
           <Label>Private Inquiries</Label>
           <span className="rule mx-auto mt-6" />
         </Reveal>
-        <Reveal delay={0.2}>
-          <h2 className="title-display mt-10 text-[40px] italic text-gold md:text-[56px]">Request access.</h2>
-        </Reveal>
-        <Reveal delay={0.4}>
-          <p className="mt-6 text-lg text-paper">For brokers who refuse to look like everyone else.</p>
-        </Reveal>
-        <Reveal delay={0.6}>
-          <a
-            href="mailto:hello@laamri.com?subject=Private%20inquiry%20%E2%80%94%20Laamri%20Studio"
-            className="cta-link group mt-14 inline-flex items-center gap-3 text-sm"
-          >
-            Write to Laamri Studio
-            <span className="inline-block transition-transform duration-300 ease-in-out group-hover:translate-x-1.5">
-              →
-            </span>
-          </a>
+        <Reveal delay={0.2} className="mt-14">
+          {sent ? (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, ease: "easeInOut" }}
+              className="py-16 text-xl italic text-gold"
+            >
+              Your inquiry has been received. Laamri Studio will respond within forty-eight hours.
+            </motion.p>
+          ) : (
+            <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
+              <Field label="Your Name" error={errors.name?.message}>
+                <input className="field" {...register("name", { required: "Please share your name." })} />
+              </Field>
+              <Field label="Your Email" error={errors.email?.message}>
+                <input
+                  type="email"
+                  className="field"
+                  {...register("email", {
+                    required: "Please share your email.",
+                    pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Please enter a valid email." },
+                  })}
+                />
+              </Field>
+              <Field label="Agency or Brokerage">
+                <input className="field" {...register("agency")} />
+              </Field>
+              <Field label="Which Market" error={errors.market?.message}>
+                <select className="field" defaultValue="" {...register("market", { required: "Please choose a market." })}>
+                  <option value="" disabled>Select</option>
+                  <option>Dubai</option>
+                  <option>Marbella</option>
+                  <option>Lisbon</option>
+                  <option>Other</option>
+                </select>
+              </Field>
+              <Field label="Your Message" error={errors.message?.message}>
+                <textarea
+                  rows={5}
+                  className="field resize-none"
+                  placeholder="Tell us about the property or portfolio you'd like us to consider."
+                  {...register("message", { required: "Please leave a message." })}
+                />
+              </Field>
+              <button type="submit" disabled={isSubmitting} className="btn-gold">
+                Request Access →
+              </button>
+            </form>
+          )}
+          <p className="mt-6 text-sm italic text-paper">We respond to every inquiry within forty-eight hours.</p>
           <p className="label mt-10 tracking-[0.3em]">By Invitation</p>
         </Reveal>
       </div>
@@ -360,9 +510,12 @@ function Index() {
       <ScrollIndicator />
       <Hero />
       <Manifesto />
+      <ImageBlock src={bluehour} alt="Mediterranean villa at blue hour" h="h-[70vh]" />
       <Campaign />
       <Method />
+      <ImageBlock src={arch} alt="Stone archway opening onto the sea at golden hour" h="h-[80vh]" />
       <Geographies />
+      <Signature />
       <Contact />
       <Footer />
     </motion.main>
