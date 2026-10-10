@@ -206,3 +206,34 @@ b, strong, h1, h2, h3, h4 { font-weight: 300; }
   &:hover { color: var(--gold-light); text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 1px; }
 }
 @media (pointer: fine) { .custom-cursor, .custom-cursor a { cursor: none; } }
+
+@utility field {
+  width: 100%;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--gold) 30%, transparent);
+  border-radius: 0;
+  padding: 16px 20px;
+  color: var(--gold);
+  font-family: var(--font-serif);
+  font-size: 17px;
+  outline: none;
+  appearance: none;
+  transition: border-color 300ms ease-in-out;
+  &::placeholder { color: color-mix(in srgb, var(--sage) 60%, transparent); }
+  &:focus { border-color: var(--gold); }
+  & option { background: var(--emerald); color: var(--gold); }
+}
+@utility btn-gold {
+  width: 100%;
+  height: 56px;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  border-radius: 0;
+  transition: background-color 300ms ease-in-out;
+  &:hover { background: color-mix(in srgb, var(--gold) 90%, black); }
+}
