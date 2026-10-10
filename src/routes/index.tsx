@@ -219,7 +219,7 @@ function ImageBlock({ src, alt, h }: { src: string; alt: string; h: string }) {
 const movements = ["First", "Second", "Third", "Fourth"];
 
 function Movement({ i }: { i: number }) {
-  const [t, d] = items[i];
+  const [t, d] = items[i]!;
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
   return (
@@ -392,7 +392,7 @@ function Signature() {
 
 type Inquiry = { name: string; email: string; agency?: string; market: string; message: string };
 
-function Field({ label, error, children }: { label: string; error?: string; children: ReactNode }) {
+function Field({ label, error, children }: { label: string; error?: string | undefined; children: ReactNode }) {
   return (
     <label className="block text-left">
       <span className="label mb-2 block text-[10px] tracking-[0.25em]">{label}</span>
