@@ -113,6 +113,8 @@
   --paper: #EBE4D6;
   --ink: #0E0E0C;
   --sage: #8FA396;
+  --hero-shade: oklch(0.17 0.025 166);
+  --hero-text-shadow: 0 2px 20px oklch(0.12 0.02 166 / 45%);
   --background: var(--royal);
   --foreground: var(--gold);
 }
@@ -195,7 +197,17 @@ b, strong, h1, h2, h3, h4 { font-weight: 300; }
   100% { transform: scaleY(0); transform-origin: bottom; }
 }
 @utility scroll-pulse { animation: scrollpulse 2.8s ease-in-out infinite; }
-@utility hero-overlay { background: color-mix(in srgb, var(--royal) 55%, transparent); }
+@utility hero-overlay {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--hero-shade) 86%, transparent), color-mix(in srgb, var(--hero-shade) 58%, transparent) 55%, color-mix(in srgb, var(--hero-shade) 20%, transparent));
+}
+@utility hero-title { text-shadow: var(--hero-text-shadow); }
+@media (max-width: 767px) {
+  .hero-overlay { background: color-mix(in srgb, var(--hero-shade) 70%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ken-burns, .scroll-pulse { animation: none; }
+  html { scroll-behavior: auto; }
+}
 @utility cta-link {
   font-family: var(--font-sans);
   font-weight: 500;

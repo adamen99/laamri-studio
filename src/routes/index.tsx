@@ -6,6 +6,7 @@ import hero from "@/assets/hero-villa.jpg";
 import bluehour from "@/assets/villa-bluehour.jpg";
 import bowl from "@/assets/bronze-bowl.jpg";
 import arch from "@/assets/stone-arch.jpg";
+import logo from "@/assets/laamri-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -105,7 +106,7 @@ function ScrollIndicator() {
 function Hero() {
   const d = (i: number) => 0.4 + i * 0.2;
   return (
-    <section className="relative h-screen min-h-[640px] overflow-hidden">
+    <section className="relative h-[90svh] min-h-[600px] overflow-hidden">
       <img
         src={hero}
         alt="Mediterranean villa at sunset with an infinity pool and olive tree"
@@ -116,14 +117,13 @@ function Hero() {
       <div className="hero-overlay absolute inset-0" />
 
       <div className="absolute left-6 top-8 md:left-12 md:top-10">
-        <span className="font-serif text-2xl font-light text-gold">L</span>
-        <span className="mt-1 block h-px w-10 bg-gold" />
+        <img src={logo.url} alt="Laamri Studio" width={72} height={64} className="h-16 w-18 object-contain object-left" />
       </div>
       <p className="label absolute right-6 top-9 md:right-12 md:top-11">Est. 2026</p>
 
       <div className="relative flex h-full items-center px-6 md:px-12 lg:px-24">
         <div className="mx-auto max-w-2xl text-center md:mx-0 md:text-left">
-          <motion.p variants={fade} custom={d(0)} initial="hidden" animate="show" className="label tracking-[0.3em]">
+          <motion.p variants={fade} custom={d(0)} initial="hidden" animate="show" className="label text-ivory">
             A Cinematic Atelier
           </motion.p>
           <motion.h1
@@ -131,7 +131,7 @@ function Hero() {
             custom={d(1)}
             initial="hidden"
             animate="show"
-            className="title-display mt-8 text-[44px] text-gold md:text-[72px]"
+            className="title-display hero-title mt-6 text-[40px] text-ivory md:text-[64px]"
           >
             Not every property
             <br />
@@ -142,7 +142,7 @@ function Hero() {
             custom={d(2)}
             initial="hidden"
             animate="show"
-            className="mx-auto mt-8 max-w-[480px] text-xl italic leading-[1.6] text-paper md:mx-0"
+            className="mx-auto mt-6 max-w-[480px] text-xl italic leading-[1.6] text-ivory md:mx-0"
           >
             We produce the visual signature that helps discerning brokers move rare homes to the right buyers.
           </motion.p>
@@ -172,13 +172,13 @@ const manifesto = [
 
 function Manifesto() {
   return (
-    <section className="flex min-h-[70vh] items-center bg-emerald px-6 py-32">
+     <section className="flex items-center bg-emerald px-6 py-16 md:py-20">
       <div className="mx-auto max-w-[680px] text-center">
         <Reveal>
           <Label>Manifesto</Label>
           <span className="rule mx-auto mt-6" />
         </Reveal>
-        <div className="mt-14 space-y-8">
+        <div className="mt-10 space-y-5">
           {manifesto.map((l, i) => (
             <Reveal key={i} delay={0.15 * (i + 1)}>
               <p className="text-2xl font-light leading-[1.6] text-gold md:text-[32px]">{l}</p>
@@ -186,7 +186,7 @@ function Manifesto() {
           ))}
         </div>
         <Reveal delay={0.9}>
-          <p className="mt-14 text-lg italic text-paper">— Laamri Studio</p>
+          <p className="mt-8 text-lg italic text-paper">— Laamri Studio</p>
         </Reveal>
       </div>
     </section>
@@ -219,16 +219,18 @@ function ImageBlock({ src, alt, h }: { src: string; alt: string; h: string }) {
 const movements = ["First", "Second", "Third", "Fourth"];
 
 function Movement({ i }: { i: number }) {
-  const [t, d] = items[i]!;
+  const item = items[i];
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  if (!item) return null;
+  const [t, d] = item;
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="grid min-h-[80vh] items-center gap-6 px-6 py-20 md:grid-cols-2 md:px-0"
+      className="grid items-center gap-6 px-6 py-12 md:grid-cols-2 md:px-0 md:py-16"
     >
       <span className="title-display text-center text-[120px] leading-none text-gold/80 md:pl-[60px] md:text-left md:text-[220px]">
         0{i + 1}
@@ -248,7 +250,7 @@ const Divider = () => <span className="block h-[2px] w-full bg-gold/10" />;
 function Campaign() {
   return (
     <section>
-      <div className="flex min-h-[70vh] items-center px-6 py-32 md:px-12 lg:px-24">
+      <div className="flex items-center px-6 py-16 md:px-12 md:py-20 lg:px-24">
         <Reveal className="mx-auto w-full max-w-6xl">
           <Label>Our Work</Label>
           <span className="rule mt-6" />
@@ -296,7 +298,7 @@ const method = [
 
 function Method() {
   return (
-    <section className="flex min-h-[70vh] items-center bg-ivory px-6 py-32 text-ink">
+    <section className="flex items-center bg-ivory px-6 py-16 text-ink md:py-20">
       <div className="mx-auto max-w-[900px] text-center">
         <Reveal>
           <Label className="text-ink">The Method</Label>
@@ -307,7 +309,7 @@ function Method() {
             Story. World.
           </h2>
         </Reveal>
-        <div className="mt-20 grid gap-12 md:grid-cols-4 md:gap-0">
+        <div className="mt-12 grid gap-8 md:grid-cols-4 md:gap-0">
           {method.map(([n, t, d], i) => (
             <Reveal key={n} delay={0.15 * i} className={`px-6 ${i ? "md:border-l md:border-ink/15" : ""}`}>
               <p className="font-serif text-[32px] font-light">{n}</p>
@@ -329,12 +331,12 @@ const cities = [
 
 function Geographies() {
   return (
-    <section className="flex min-h-[50vh] items-center px-6 py-32">
+    <section className="flex items-center px-6 py-16 md:py-20">
       <div className="mx-auto w-full max-w-[1000px] text-center">
         <Reveal>
           <Label>Geographies</Label>
         </Reveal>
-        <div className="mt-16 flex flex-col items-center justify-between gap-12 md:flex-row md:items-end">
+        <div className="mt-10 flex flex-col items-center justify-between gap-8 md:flex-row md:items-end">
           {cities.map(([c, s], i) => (
             <Reveal key={c} delay={0.2 * i}>
               <p className="font-serif text-5xl font-light italic text-gold">{c}</p>
@@ -342,7 +344,7 @@ function Geographies() {
             </Reveal>
           ))}
         </div>
-        <span className="mt-16 block h-px w-full bg-gold/30" />
+        <span className="mt-10 block h-px w-full bg-gold/30" />
         <Reveal delay={0.6}>
           <p className="mt-10 text-base italic text-paper">
             For three to four brokers at a time. Our atelier runs quiet, with limited capacity by design.
@@ -359,11 +361,10 @@ function Signature() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-15% 0px" });
   return (
-    <section ref={ref} className="relative flex min-h-[70vh] items-center bg-emerald px-6 py-[120px]">
+    <section ref={ref} className="relative flex items-center bg-emerald px-6 py-16 md:py-20">
       <div className="mx-auto max-w-[760px] text-center">
-        <Label>A Quiet Statement</Label>
-        <span className="rule mx-auto mt-6" />
-        <blockquote className="mt-14 text-[28px] font-light italic leading-[1.5] text-gold md:text-[36px]">
+        <span className="rule mx-auto" />
+        <blockquote className="mt-8 text-[28px] font-light italic leading-[1.5] text-gold md:text-[36px]">
           {quote.map((l, i) => (
             <motion.span
               key={i}
@@ -382,7 +383,7 @@ function Signature() {
           transition={{ duration: 1.2, ease: "easeOut", delay: 1.1 }}
           className="mt-10 text-base text-paper"
         >
-          — Laamri Studio, Tangier
+          — Laamri Studio
         </motion.p>
       </div>
       <span className="absolute inset-x-0 bottom-0 h-px bg-gold/20" />
@@ -424,13 +425,13 @@ function Contact() {
   };
 
   return (
-    <section className="flex min-h-[60vh] items-center bg-emerald px-6 py-32">
+    <section className="flex items-center bg-emerald px-6 py-16 md:py-20">
       <div className="mx-auto w-full max-w-[520px] text-center">
         <Reveal>
           <Label>Private Inquiries</Label>
           <span className="rule mx-auto mt-6" />
         </Reveal>
-        <Reveal delay={0.2} className="mt-14">
+        <Reveal delay={0.2} className="mt-10">
           {sent ? (
             <motion.p
               initial={{ opacity: 0 }}
@@ -490,10 +491,10 @@ function Contact() {
 
 function Footer() {
   return (
-    <footer className="flex h-[100px] items-center justify-center gap-6 border-t border-gold/10 px-6">
+    <footer className="flex h-20 items-center justify-center gap-6 border-t border-gold/10 px-6">
       <span className="text-sm text-gold">Laamri Studio</span>
       <span className="h-5 w-px bg-gold/60" />
-      <span className="label text-[10px]">Composed in Tangier · 2026</span>
+      <span className="label text-[10px]">2026</span>
     </footer>
   );
 }
@@ -510,10 +511,10 @@ function Index() {
       <ScrollIndicator />
       <Hero />
       <Manifesto />
-      <ImageBlock src={bluehour} alt="Mediterranean villa at blue hour" h="h-[70vh]" />
+      <ImageBlock src={bluehour} alt="Mediterranean villa at blue hour" h="h-[55vh]" />
       <Campaign />
       <Method />
-      <ImageBlock src={arch} alt="Stone archway opening onto the sea at golden hour" h="h-[80vh]" />
+      <ImageBlock src={arch} alt="Stone archway opening onto the sea at golden hour" h="h-[55vh]" />
       <Geographies />
       <Signature />
       <Contact />
