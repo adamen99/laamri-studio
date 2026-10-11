@@ -398,31 +398,49 @@ function Field({ label, error, children }: { label: string; error?: string | und
     <label className="block text-left">
       <span className="label mb-2 block text-[10px] tracking-[0.25em]">{label}</span>
       {children}
-      {error && <span className="mt-2 block font-sans text-[11px] text-gold-light">{error}</span>}
+      {error &&
+        (error === "Required" ? (
+          <span className="mt-2 block font-sans text-[10px] uppercase tracking-[0.2em] text-sage">{error}</span>
+        ) : (
+          <span className="mt-2 block font-serif text-sm italic text-gold/70">{error}</span>
+        ))}
     </label>
   );
 }
 
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/maeqbonz";
+
 function Contact() {
   const [sent, setSent] = useState(false);
+  const [failed, setFailed] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<Inquiry>();
 
-  // Formspree-ready: set FORMSPREE_ENDPOINT to "https://formspree.io/f/xxxx" later.
-  const FORMSPREE_ENDPOINT = "";
   const onSubmit = async (data: Inquiry) => {
-    if (FORMSPREE_ENDPOINT) {
-      await fetch(FORMSPREE_ENDPOINT, {
+    setFailed(false);
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          agency: data.agency ?? "",
+          market: data.market,
+          message: data.message,
+        }),
       });
+      if (res.ok) setSent(true);
+      else setFailed(true);
+    } catch {
+      setFailed(true);
     }
-    setSent(true);
   };
+
+  const hl = (bad: boolean) => (bad ? "field !border-gold" : "field");
 
   return (
     <section className="flex items-center bg-emerald px-6 py-16 md:py-20">
@@ -437,22 +455,22 @@ function Contact() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, ease: "easeInOut" }}
-              className="py-16 text-xl italic text-gold"
+              className="py-10 text-center font-serif text-2xl italic text-gold"
             >
               Your inquiry has been received. Laamri Studio will respond within forty-eight hours.
             </motion.p>
           ) : (
             <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
               <Field label="Your Name" error={errors.name?.message}>
-                <input className="field" {...register("name", { required: "Please share your name." })} />
+                <input className={hl(!!errors.name)} {...register("name", { required: "Required" })} />
               </Field>
               <Field label="Your Email" error={errors.email?.message}>
                 <input
                   type="email"
-                  className="field"
+                  className={hl(!!errors.email)}
                   {...register("email", {
-                    required: "Please share your email.",
-                    pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Please enter a valid email." },
+                    required: "Required",
+                    pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Please enter a valid email address." },
                   })}
                 />
               </Field>
@@ -460,7 +478,7 @@ function Contact() {
                 <input className="field" {...register("agency")} />
               </Field>
               <Field label="Which Market" error={errors.market?.message}>
-                <select className="field" defaultValue="" {...register("market", { required: "Please choose a market." })}>
+                <select className={hl(!!errors.market)} defaultValue="" {...register("market", { required: "Required" })}>
                   <option value="" disabled>Select</option>
                   <option>Dubai</option>
                   <option>Marbella</option>
@@ -471,17 +489,22 @@ function Contact() {
               <Field label="Your Message" error={errors.message?.message}>
                 <textarea
                   rows={5}
-                  className="field resize-none"
+                  className={`${hl(!!errors.message)} resize-none`}
                   placeholder="Tell us about the property or portfolio you'd like us to consider."
-                  {...register("message", { required: "Please leave a message." })}
+                  {...register("message", { required: "Required" })}
                 />
               </Field>
               <button type="submit" disabled={isSubmitting} className="btn-gold">
-                Request Access →
+                {isSubmitting ? "Sending..." : "Request Access →"}
               </button>
+              {failed && (
+                <p className="text-center font-serif text-sm italic text-gold/70">
+                  Something went wrong. Please write to hello@laamri.com.
+                </p>
+              )}
             </form>
           )}
-          <p className="mt-6 text-sm italic text-paper">We respond to every inquiry within forty-eight hours.</p>
+          {!sent && <p className="mt-6 text-sm italic text-paper">We respond to every inquiry within forty-eight hours.</p>}
           <p className="label mt-10 tracking-[0.3em]">By Invitation</p>
         </Reveal>
       </div>
