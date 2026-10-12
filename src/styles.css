@@ -201,6 +201,39 @@ b, strong, h1, h2, h3, h4 { font-weight: 300; }
   background: linear-gradient(90deg, color-mix(in srgb, var(--hero-shade) 86%, transparent), color-mix(in srgb, var(--hero-shade) 58%, transparent) 55%, color-mix(in srgb, var(--hero-shade) 20%, transparent));
 }
 @utility hero-title { text-shadow: var(--hero-text-shadow); }
+/* Reference framing is proportional to the image band, not viewport height.
+   Keep the original mobile cover sizing and motion below the desktop breakpoint. */
+@media (min-width: 1024px) {
+  .editorial-image {
+    height: auto;
+    aspect-ratio: 774 / 408;
+  }
+  .editorial-image > img {
+    height: auto;
+    max-width: none;
+    right: auto;
+    bottom: auto;
+    animation: none;
+  }
+  .editorial-image--villa > img {
+    width: 118.6047%;
+    left: -8.7855%;
+    top: -95.098%;
+  }
+  .editorial-image--bowl > img {
+    width: 113.0491%;
+    left: -6.2016%;
+    top: -100%;
+  }
+  .editorial-image--studio {
+    aspect-ratio: 774 / 390;
+  }
+  .editorial-image--studio > img {
+    width: 109.8191%;
+    left: -4.6512%;
+    top: -166.1538%;
+  }
+}
 @media (max-width: 767px) {
   .hero-overlay { background: color-mix(in srgb, var(--hero-shade) 70%, transparent); }
 }

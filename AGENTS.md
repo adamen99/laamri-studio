@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Keep uploaded site branding in a Lovable Assets pointer, with a padded raster copy in public for the favicon, so the page stays lightweight and browser branding stays consistent.
+- Apply supporting-photo reference crops through proportional CSS framing at the desktop breakpoint only, with desktop motion disabled, so framing remains stable and mobile presentation is preserved.
