@@ -198,7 +198,7 @@ const items = [
   ["Portfolio Activation", "Two to four additional listings activated monthly with content derived from the same visual world."],
 ];
 
-function ImageBlock({ src, alt, h }: { src: string; alt: string; h: string }) {
+function ImageBlock({ src, alt, h, crop }: { src: string; alt: string; h: string; crop: "villa" | "bowl" | "studio" }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
   return (
@@ -207,7 +207,7 @@ function ImageBlock({ src, alt, h }: { src: string; alt: string; h: string }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: inView ? 1 : 0 }}
       transition={{ duration: 1, ease: "easeOut" }}
-      className={`relative w-full overflow-hidden ${h}`}
+      className={`editorial-image editorial-image--${crop} relative w-full overflow-hidden ${h}`}
     >
       <img src={src} alt={alt} loading="lazy" className="ken-burns absolute inset-0 h-full w-full object-cover object-center" />
     </motion.div>
@@ -277,7 +277,7 @@ function Campaign() {
         <Divider />
         <Movement i={1} />
       </div>
-      <ImageBlock src={bowl.url} alt="Bronze bowl of still water in golden light" h="h-[50vh]" />
+      <ImageBlock src={bowl.url} alt="Bronze bowl of still water in golden light" h="h-[50vh]" crop="bowl" />
       <div className="mx-auto max-w-6xl md:px-12">
         <Movement i={2} />
         <Divider />
@@ -532,10 +532,10 @@ function Index() {
       <ScrollIndicator />
       <Hero />
       <Manifesto />
-      <ImageBlock src={bluehour.url} alt="Mediterranean villa overlooking the sea at sunset" h="h-[55vh]" />
+      <ImageBlock src={bluehour.url} alt="Mediterranean villa overlooking the sea at sunset" h="h-[55vh]" crop="villa" />
       <Campaign />
       <Method />
-      <ImageBlock src={arch.url} alt="Stone archway opening onto the sea at golden hour" h="h-[55vh]" />
+      <ImageBlock src={arch.url} alt="Stone archway opening onto the sea at golden hour" h="h-[55vh]" crop="studio" />
       <Geographies />
       <Signature />
       <Contact />
