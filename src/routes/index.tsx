@@ -2,11 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion, useScroll, useInView, type Variants } from "framer-motion";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useForm } from "react-hook-form";
-import hero from "@/assets/golden-sunset-villa.png.asset.json";
-import bluehour from "@/assets/villa-sunset-publication.png.asset.json";
-import bowl from "@/assets/bronze-bowl-publication.png.asset.json";
-import arch from "@/assets/stone-arch-publication.png.asset.json";
-import logo from "@/assets/laamri-logo.png.asset.json";
+import hero from "@/assets/golden-sunset-villa.jpg";
+import bluehour from "@/assets/villa-sunset-publication.jpg";
+import bowl from "@/assets/bronze-bowl-publication.jpg";
+import arch from "@/assets/stone-arch-publication.jpg";
+import logo from "@/assets/laamri-logo.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
