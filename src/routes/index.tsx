@@ -108,14 +108,14 @@ function Hero() {
   return (
     <section className="relative h-[90svh] min-h-[600px] overflow-hidden">
       <img
-        src={hero.url}
+        src={hero}
         alt="Mediterranean villa at sunset with an infinity pool and olive tree"
         className="ken-burns absolute inset-0 h-full w-full object-cover"
       />
       <div className="hero-overlay absolute inset-0" />
 
       <div className="absolute left-6 top-8 md:left-12 md:top-10">
-        <img src={logo.url} alt="Laamri Studio" width={72} height={64} className="h-16 w-18 object-contain object-left" />
+        <img src={logo} alt="Laamri Studio" width={72} height={64} className="h-16 w-18 object-contain object-left" />
       </div>
       <p className="label absolute right-6 top-9 md:right-12 md:top-11">Est. 2026</p>
 
@@ -277,7 +277,7 @@ function Campaign() {
         <Divider />
         <Movement i={1} />
       </div>
-      <ImageBlock src={bowl.url} alt="Bronze bowl of still water in golden light" h="h-[50vh]" crop="bowl" />
+      <ImageBlock src={bowl} alt="Bronze bowl of still water in golden light" h="h-[50vh]" crop="bowl" />
       <div className="mx-auto max-w-6xl md:px-12">
         <Movement i={2} />
         <Divider />
@@ -532,10 +532,10 @@ function Index() {
       <ScrollIndicator />
       <Hero />
       <Manifesto />
-      <ImageBlock src={bluehour.url} alt="Mediterranean villa overlooking the sea at sunset" h="h-[55vh]" crop="villa" />
+      <ImageBlock src={bluehour} alt="Mediterranean villa overlooking the sea at sunset" h="h-[55vh]" crop="villa" />
       <Campaign />
       <Method />
-      <ImageBlock src={arch.url} alt="Stone archway opening onto the sea at golden hour" h="h-[55vh]" crop="studio" />
+      <ImageBlock src={arch} alt="Stone archway opening onto the sea at golden hour" h="h-[55vh]" crop="studio" />
       <Geographies />
       <Signature />
       <Contact />
