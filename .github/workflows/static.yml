@@ -28,12 +28,28 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+      - name: Find build output directory
+        id: find_dir
+        run: |
+          if [ -d "./dist" ]; then
+            echo "build_dir=./dist" >> $GITHUB_OUTPUT
+          elif [ -d "./build" ]; then
+            echo "build_dir=./build" >> $GITHUB_OUTPUT
+          elif [ -d "./.output/public" ]; then
+            echo "build_dir=./.output/public" >> $GITHUB_OUTPUT
+          elif [ -d "./out" ]; then
+            echo "build_dir=./out" >> $GITHUB_OUTPUT
+          else
+            echo "No build directory found!"
+            ls -la
+            exit 1
+          fi
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: ${{ steps.find_dir.outputs.build_dir }}
   deploy:
     environment:
       name: github-pages
